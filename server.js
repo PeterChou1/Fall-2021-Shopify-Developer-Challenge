@@ -42,6 +42,7 @@ app.use(cookieParser());
 app.use("/api/users", userRoutes);
 app.use("/api/repo", repoRoutes);
 app.use("/api/images", imageRoutes);
+app.use(express.static(path.join(__dirname, "client", "build")));
 app.get("*", function (req, res) {
   res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 });
