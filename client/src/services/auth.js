@@ -1,25 +1,21 @@
-import HTTPClient from './httpclient'
+import HTTPClient from "./httpclient";
 
-const authFactory = initclient => {
+const authFactory = (initclient) => {
+  const client = initclient || new HTTPClient();
 
-    const client = initclient || new HTTPClient();
+  return {
+    async signin(username, password) {
+      return client.signin(username, password);
+    },
 
-    return {
-        async signin(username, password) {
-            return client.signin(username, password);
-        },
+    async signout() {
+      return client.signout();
+    },
 
-        async signout() {
-            return client.signout();
-        },
-
-        async signup(username, password) {
-            return client.signup(username, password);
-        },
-        async isAuth() {
-            return client.isAuth();
-        }
-    }
-}
+    async signup(username, password) {
+      return client.signup(username, password);
+    },
+  };
+};
 
 export default authFactory;

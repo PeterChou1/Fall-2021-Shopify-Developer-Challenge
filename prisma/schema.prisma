@@ -8,29 +8,59 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["selectRelationCount"]
 }
 
 
 model Picture {
   id          Int     @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   path        String
   mimetype    String
   description String
-  repo        Repo    @relation(fields: [repoId], references: [id])
-  repoId      Int
+  title       String
+  repo        Repo?   @relation(fields: [repoId], references: [id])
+  repoId      Int?
 }
 
 model Repo {
   id          Int     @id @default(autoincrement())
-  owner       User    @relation(fields: [ownedBy], references: [id])
-  ownedBy     Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  owner       User?    @relation(fields: [ownedBy], references: [id])
+  ownedBy     Int?
+  name        String
   pictures    Picture[]
+  permission  Permission
 }
-
 
 model User {
   id        Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
   username  String   @unique
   password  String
   repos     Repo[]
+  friendSend     FriendRequest[] @relation("send")
+  friendRecieve  FriendRequest[] @relation("recieve")
+}
+
+
+model FriendRequest {
+  id        Int  @id @default(autoincrement())
+  send      User? @relation(name: "send", fields: [sendId], references: [id])
+  sendId    Int?
+  recieve   User? @relation(name: "recieve", fields: [recieveId], references: [id])
+  recieveId Int?
+  accepted       Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  @@unique([sendId, recieveId])
+}
+
+enum Permission {
+  PRIVATE
+  FRIENDSONLY
+  PUBLIC
 }

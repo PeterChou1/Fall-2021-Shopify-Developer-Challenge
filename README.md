@@ -5,17 +5,17 @@ pls hire me shopify
 ## Technologies used
 
 ### Backend
+
 - nodejs
 - express
 - prisma ORM
 - postgresSQL
 
 ### FrontEnd
+
 - React
 
-
 ## Setup
-
 
 ## Features
 
