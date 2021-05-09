@@ -1,0 +1,66 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table Picture {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  url String [not null]
+  mimetype String [not null]
+  description String [not null]
+  title String [not null]
+  repo Repo
+  repoId Int
+}
+
+Table Repo {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  owner User
+  ownedBy Int
+  name String [not null]
+  pictures Picture [not null]
+  permission Permission [not null]
+}
+
+Table User {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  username String [unique, not null]
+  password String [not null]
+  repos Repo [not null]
+  friendSend FriendRequest [not null]
+  friendRecieve FriendRequest [not null]
+}
+
+Table FriendRequest {
+  id Int [pk, increment]
+  send User
+  sendId Int
+  recieve User
+  recieveId Int
+  accepted Boolean [not null, default: false]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+
+  indexes {
+    (sendId, recieveId) [unique]
+  }
+}
+
+Enum Permission {
+  PRIVATE
+  FRIENDSONLY
+  PUBLIC
+}
+
+Ref: Picture.repoId > Repo.id
+
+Ref: Repo.ownedBy > User.id
+
+Ref: FriendRequest.sendId > User.id
+
+Ref: FriendRequest.recieveId > User.id
