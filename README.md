@@ -7,13 +7,13 @@
   - [Features](#features)
   - [Technologies Used](#technologies)
 - [Database Design](#database)
-- [Getting Started](#getting)
+- [Getting Started](#start)
 - [API Documentation](#api)
 - [Unit Testing](#testing)
 - [Future Extensions](#future)
 
 ## <a name="overview"></a> Overview 
-### General Overview
+### <a name="general"></a>  General Overview
 __problem statement__:  Build an image repository
 
 Fullstack App built using Nodejs and react.
@@ -25,7 +25,7 @@ Due to the nature of heroku's empheral file system every time the app is restart
 
 
 
-### <a name="overview"></a> Features
+### <a name="features"></a> Features
 - users can sign up and create an account to store their images
 - users can delete their entire account along with all their images
 - users can create image repositories
@@ -40,7 +40,7 @@ Due to the nature of heroku's empheral file system every time the app is restart
 - users can edit title/descriptions of images in other people image repository
 - users can delete their own images within image repository
 
-### <a name="features"></a> Technologies Used
+### <a name="technologies"></a> Technologies Used
 
 Testing 
  - mocha
@@ -57,7 +57,7 @@ Frontend
  - material-ui
 
 
-##  Database Design
+## <a name="database"></a> Database Design
 <img src="assets/dbdiagram.png"/>
 
 
@@ -71,7 +71,7 @@ Frontend
 Notes: a person is consider a friend if the accept is set to true within Friend Request line
 
 
-## Getting Started / Launching
+## <a name="start"></a> Getting Started / Launching
 
 To test the app locally first run 
 
@@ -98,7 +98,30 @@ app is now avaliable on `http://localhost:3000`
 
 The backend API is based on a REST Design the full documentation of can found [here](https://github.com/PeterChou1/Fall-2021-Shopify-Developer-Challenge/tree/main/doc)
 
-## Unit Testing 
+## <a name="testing"></a> Unit Testing 
 
-## Future Extensions
+## <a name="future"></a> Project Structure + Future Extensions
+
+This project was written with extensibility in mind. To achieve the code is organized in the following manner shown below. Notably all database logic is separate from the core API routing logic improving modularity and reusability of code.
+```
+├── assets                       (static server side assets)
+├── client                                     (client side)
+├── doc                                  (API documentation)
+├── middleware        (express utility middleware directory)
+├── model                                   (database logic)
+├── node_modules
+├── package-lock.json
+├── package.json
+├── prisma                                 (database schema)
+├── Procfile
+├── README.md
+├── routes                                 (API route logic)
+├── server.js
+├── shortcuts.txt
+├── test                     (mocha and chai test directory)
+└── uploads                (uploaded image stored by multer)
+```
+
+future extensions for the project could the implementation of Friend Request which due to time constraints is only partially implemented. Other possibility include implementing a search functionality through Solr and Commenting and Upvoting images.
+
 

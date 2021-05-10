@@ -17,10 +17,7 @@
 - response: 409
   - body: object
     - error : `user name already exist`
-- response: 500
-  - content-type: `application/json`
-  - body: object
-    - error : (string) server error string
+
 
 ### Signin
 
@@ -42,17 +39,20 @@
   - content-type: `application/json`
   - body: object
     - error : `username not found`
-- response: 500
-  - content-type: `application/json`
-  - body: object
-    - error : (string) server error string
+
 
 ### Signout
-
 - description: signs user out by deleting server side session
 - request: `GET /api/users/signout/`
 - response: 200
   - body: `OK`
+
+### Delete User
+- description: deletes an authenticated users account
+- request: `DELETE /api/users/delete/`
+- response: 200
+  - body: `OK`
+
 
 ### Read Users
 
@@ -64,15 +64,7 @@
 - response: 200
   - content-type: `application/json`
   - body: object
-    - usernames: (array) array of username in database
-- response: 500
-  - content-type: `application/json`
-  - body: object
-    - error : (string) server error string
-
-### Send Friend Request
-
-### Resolve Friend Request
+    - usernames: (array) array of users in database
 
 ## Repository API
 
@@ -94,8 +86,8 @@ A user can create image repository under three permissions
     - permissions: (String) `PUBLIC` | `FRIENDS_ONLY` | `PRIVATE`
 - response: 200
   - body: `success`
-- response: 401
-  - body: `access denied`
+- response: 400
+  - body: `permission not valid`
 
 ### Read Repository
 
@@ -112,11 +104,13 @@ A user can create image repository under three permissions
     - count: (Int) total number of repository
     - repos: (array of objects)
       - name: (String) string of the repository
+      - createdAt: (String) creation date
+      - updateAt: (String) last modified date
+      - ownedBy: (Int) owner id
       - id: (Int) repo id
-- response: 500
-  - content-type: `application/json`
-  - body: object
-    - error : (string) server error string
+    - username: (String) Username that owns this repository
+- response: 400
+  - body: `userid not specified` 
 
 ### Update Repository
 
@@ -130,6 +124,8 @@ A user can create image repository under three permissions
     - permissions: (String) `PUBLIC` | `FRIENDS_ONLY` | `PRIVATE` new permissions
 - response: 200
   - body: `success`
+- response: 400 
+  - body: `repo id not specified` | `permission not valid` | `invalid repository name` | `user (id :userid) does not own repo (id :repoid)`
 
 ### Delete Repository
 
@@ -141,25 +137,43 @@ A user can create image repository under three permissions
     - repoid: (Int) repo id to be deleted
 - response: 200
   - body: `success`
-- response: 401
-  - body: `access denied`
+- response: 400
+  - body: `repo id not specified` | `user (id :userid) does not own repo (id :repoid)`
+
+
+### Get Repository Thumbnail
+
+- description: get a random image in the repository if no image is in the repository return a placeholder image
+- request: `GET /api/repo/:id`
+- response: 200
+  - content-type: `file mimetype`
+  - body: binary file with :id in database
+- response: 400
+  - body: `repo id not specified` | `repo id:(:id) does not exist` | `invalid permission`
+
 
 ## Image API
 
 ### Create Image
-
 - description: create an image under an image repository
 - request: `POST /api/images/`
   - content-type: `multipart/form-data`
 - response: 200
+  - body: `success`
 
 ### Read Image
-
-- description: get all image id (paginated) under an image repository
+- description: return all paginated response under an repoid based on query parameters
+- query parameters:
+  - repoid: (Int) Required
+  - pagelength: (Int) Optional default=5
+  - page: (Int) Optional default=0
 - request: `GET /api/images/[?repoid=id][?pagelength=5][?page=0]`
   - content-type: `application/json`
 - response: 200
   - content-type: `application/json`
+- response: 400
+  - body: `repo id not specified` | `repo id:(:id) does not exist` | `invalid permission`
+
 
 ### Read Image Source
 
@@ -168,12 +182,8 @@ A user can create image repository under three permissions
 - response: 200
   - content-type: `file mimetype`
   - body: binary file with :id in database
-- response: 401
-  - body: `access denied`
-- response: 500
-  - body: internal server errors
-- response 404
-  - body: image id :id does not exist
+- response: 400
+  - body: `access denied` | `image id :id does not exist`  | `invalid permission`
 
 ### Update Image
 
@@ -181,9 +191,13 @@ A user can create image repository under three permissions
 - request: `PATCH /api/images/`
   - content-type: `application/json`
   - body: object
-    - repoid: (Int) id of repo the image belongs to
     - imageid: (Int) id of image to be updated
+    - description: (String) newly updated description
+    - title: (String) newly updated title
 - response: 200
+  - body: `success`
+- response: 400
+  - body: `image id not specified` | `image id :id does not exist`  | `requesting client does not own image id:(:imageid)`
 
 ### Delete Image
 
@@ -191,6 +205,8 @@ A user can create image repository under three permissions
 - request: `DELETE /api/images/`
   - content-type: `application/json`
   - body: object
-    - repoid: (Int) id of repo the image belongs to
-    - imageid: (Int) id of image to be updated
+    - imageid: (Int) id of image to be deleted
 - response: 200
+  - body: `success`
+- response: 400
+  - body: `image id not specified` | `image id :id does not exist`  | `requesting client does not own image id:(:imageid)`

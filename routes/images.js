@@ -130,7 +130,7 @@ router.delete("/", isAuthenticated, async function (req, res) {
       .json({
         error: `requesting client does not own image id: ${req.body.imageid}`,
       });
-  const imgdeleted = await Image.deleteImage(req.body.imageid);
+  await Image.deleteImage(req.body.imageid);
   await fsPromises.unlink(path.join(__dirname, "..", img.path));
   return res.status(200).end("success");
 });
