@@ -21,7 +21,7 @@ Features full CRUD operations on images and repository with permissions. Authent
 
 __deployed app__: App is deployed on https://shopify-fall-2021.herokuapp.com/
 
-Due to the nature of heroku's empheral file system every time the app is restarted all the file is deleted. Because of this all previously uploaded file will not be rendered on app restart. To test the full functionality of the app you would have to do everything in a single session. To mitigate this issue future work can be done to migrate local storage solution to amazon s3 cloud storage.
+Due to the nature of heroku's ephemeral file system every time the app is restarted all the file is deleted. Because of this all previously uploaded file will not be rendered on app restart. To test the full functionality of the app you would have to do everything in a single session. To mitigate this issue future work can be done to migrate local storage solution to amazon s3 cloud storage.
 
 
 
@@ -99,6 +99,8 @@ app is now avaliable on `http://localhost:3000`
 The backend API is based on a REST Design the full documentation of can found [here](https://github.com/PeterChou1/Fall-2021-Shopify-Developer-Challenge/tree/main/doc)
 
 ## <a name="testing"></a> Unit Testing 
+
+To test application run `npm run test`
 
 ## <a name="future"></a> Project Structure + Future Extensions
 
