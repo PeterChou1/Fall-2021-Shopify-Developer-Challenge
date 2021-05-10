@@ -3,24 +3,29 @@
 ## Table of Contents
 
 - [Overview](#overview)
-  - [General Overview](#general-overview)
+  - [General Overview](#general)
   - [Features](#features)
-  - [Technologies Used](#technologies-used)
-- [Database Design](#db-design)
-- [Getting Started / Launching](#getting-started)
-- [API Documentation](#api-doc)
-- [Unit Testing](#unit-testing)
-- [Future Extensions](#extended-functionality)
+  - [Technologies Used](#technologies)
+- [Database Design](#database)
+- [Getting Started](#getting)
+- [API Documentation](#api)
+- [Unit Testing](#testing)
+- [Future Extensions](#future)
 
-## Overview
+## <a name="overview"></a> Overview 
 ### General Overview
 __problem statement__:  Build an image repository
+
+Fullstack App built using Nodejs and react.
+Features full CRUD operations on images and repository with permissions. Authentication and Authorization is manage through through bcrypt and express sessions.
 
 __deployed app__: App is deployed on https://shopify-fall-2021.herokuapp.com/
 
 Due to the nature of heroku's empheral file system every time the app is restarted all the file is deleted. Because of this all previously uploaded file will not be rendered on app restart. To test the full functionality of the app you would have to do everything in a single session. To mitigate this issue future work can be done to migrate local storage solution to amazon s3 cloud storage.
 
-### Features
+
+
+### <a name="overview"></a> Features
 - users can sign up and create an account to store their images
 - users can delete their entire account along with all their images
 - users can create image repositories
@@ -35,12 +40,12 @@ Due to the nature of heroku's empheral file system every time the app is restart
 - users can edit title/descriptions of images in other people image repository
 - users can delete their own images within image repository
 
-### Technologies Used
+### <a name="features"></a> Technologies Used
 
 Testing 
  - mocha
  - chai
- 
+
 Backend
  - Nodejs
  - PostgresSQL
@@ -52,9 +57,19 @@ Frontend
  - material-ui
 
 
-## Database Design
+##  Database Design
+<img src="assets/dbdiagram.png"/>
 
-![alt text](https://github.com/PeterChou1/Fall-2021-Shopify-Developer-Challenge/tree/main/assets/dbdiagram.png "Logo Title Text 1")
+
+### Relations
+- a user can have 1 - n repos
+- a repo can have 1 - n pictures 
+- a user can have 1 - n FriendRequest 
+- a friend request has 1 send User and 1 recieve User
+
+
+Notes: a person is consider a friend if the accept is set to true within Friend Request line
+
 
 ## Getting Started / Launching
 
@@ -76,8 +91,10 @@ finally to run your app run
 
 `npm run start`
 
+app is now avaliable on `http://localhost:3000`
 
-## API Documentation
+
+## <a name="api"></a> API Documentation
 
 The backend API is based on a REST Design the full documentation of can found [here](https://github.com/PeterChou1/Fall-2021-Shopify-Developer-Challenge/tree/main/doc)
 
